@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+$("document").ready(function() {
+  var $entryForm = $("#entryForm");
+  $entryForm.on('submit', function() {
+    data = $(this).serialize();
+    $.ajax({
+      type: "POST",
+      dataType: "json",
+      url: "ContactForm.php",
+      data: data
+    })
+    .done(function(data, textStatus, jqXHR) {
+      console.log(data);
+      $(".body").html(
+        data
+      );
+    })
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      console.log("fail");
+      console.log(textStatus);
+      $(".body").html(
+        "Unable to save contact form"
+      );
+    });
+  });
+});
+
+</script>
+</head>
+<body>
+<div class="body">
+  <form class="entryForm" id="contactForm" method="post" accept-charset="utf-8">
+    Name<input type="text" name="sender_name" value="" placeholder="Enter Your Name" /><br/>
+    Email Address<input type="text" name="sender_email" value="" placeholder="Enter Your Email" /><br/>
+    Phone<input type="text" name="sender_phone" value="" placeholder="Phone Number" /><br/>
+    Message<input type="text" name="sender_message" value="" placeholder="Enter Your Name" /><br/>
+    <input type="submit" name="submit" value="Submit form" />
+  </form>
+</div>
+</body>
+</html>
