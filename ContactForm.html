@@ -9,18 +9,11 @@ $("document").ready(function() {
   var entryForm = $(".entryForm");
 
   function inputValidation() {
-    /* for ID
+
     var name = $("#sender_name").val();
     var email = $("#sender_email").val();
     var phone = $("#sender_phone").val();
     var message = $("#sender_message").val();
-    */
-
-    var name = $("[name='sender_name']").val();
-    var email = $("[name='sender_email']").val();
-    var phone = $("[name='sender_phone']").val();
-    var message = $("[name='sender_message']").val();
-
     var response = "";
 
     if (name==null || name.trim().length === 0)
@@ -46,21 +39,15 @@ $("document").ready(function() {
     return true;
   }
 
-
   entryForm.submit(function(event) {
     // if validation fails, stop submission
     if (!inputValidation()) {
-      alert("input validation false");
       return false;
     }
 
-    console.log($(this).serialize());
     // add timestamp
     var currTimestamp = moment(new Date()).format('YYYYMMDDhhmmss.SSSS');
     data = $(this).serialize() + "&sender_time=" + currTimestamp;
-
-    console.log(data);
-    return false;
 
     $.ajax({
       type: "POST",
@@ -85,14 +72,14 @@ $("document").ready(function() {
 
 </script>
 </head>
-<body class="flexcontainer">
-<div class="body">
+<body>
+<div class="flexcontainer">
   <form class="entryForm" id="contactForm" method="post" accept-charset="utf-8">
-    Name<input type="text" name="sender_name" value="" placeholder="Enter Your Name" /><br/>
-    Email Address<input type="text" name="sender_email" value="" placeholder="Enter Your Email" /><br/>
-    Phone<input type="text" name="sender_phone" value="" placeholder="Phone Number" /><br/>
-    Message<input type="text" name="sender_message" value="" placeholder="Enter Your Name" /><br/>
-    <input type="submit" name="submit" value="Submit form" />
+    <p><label for="sender_name">Name</label><input type="text" id="sender_name" name="sender_name" value="" placeholder="Enter Your Name" /></p>
+    <p><label for="sender_email">Email Address</label><input type="text" id="sender_email" name="sender_email" value="" placeholder="Enter Your Email" /></p>
+    <p><label for="sender_phone">Phone</label><input type="text" id="sender_phone" name="sender_phone" value="" placeholder="Phone Number" /></p>
+    <p><label for="sender_message">Message</label><input type="text" id="sender_message" name="sender_message" value="" placeholder="Enter Your Name" /></p>
+    <p><input type="submit" name="submit" value="Submit form" /></p>
   </form>
 </div>
 </body>

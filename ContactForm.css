@@ -7,33 +7,45 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
-
-  background-color:yellow;
-}
-
-.body {
-  border: 1px solid #555;
-  /* section for old browsers */
-  min-width: 500px;
-  max-width: 500px;
 }
 
 .entryForm {
+  display: flex;
   flex-direction: column;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: green;
+  border: 1px solid #555;
+  min-width: 500px;
+  max-width: 500px;
+
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.entryForm b {
+.entryForm > p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.entryForm > p label {
+  flex: 1;
   align-items: flex-start;
 }
 
-.entryForm input[type="text"] {
+.entryForm > p input[type="text"] {
+  flex: 1;
   align-items: flex-end;
 }
 
-.entryForm input[type="submit"] {
-  background-color: red;
-  align-items: center;
+/*
+.entryForm > p:first-child {
+  display: block;
+  flex: 1;
+  align-items: flex-start;
 }
+
+.entryForm > p:last-child {
+  display: block;
+  flex: 1;
+  align-items: flex-end;
+}
+*/
