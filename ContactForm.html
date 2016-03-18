@@ -1,11 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link href="ContactForm.css" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
 <script type="text/javascript">
 $("document").ready(function() {
-  $(".entryForm").submit(function(){
-    data = $(this).serialize();
+  var entryForm = $(".entryForm");
+
+  function inputValidation() {
+    /* for ID
+    var name = $("#sender_name").val();
+    var email = $("#sender_email").val();
+    var phone = $("#sender_phone").val();
+    var message = $("#sender_message").val();
+    */
+
+    var name = $("[name='sender_name']").val();
+    var email = $("[name='sender_email']").val();
+    var phone = $("[name='sender_phone']").val();
+    var message = $("[name='sender_message']").val();
+
+    var response = "";
+
+    if (name==null || name.trim().length === 0)
+      response = "Name is mandatory\n";
+
+    if ((email==null||email.trim().length===0)&&(phone==null||phone.trim().length===0))
+      response = response + "Email or Phone is required\n";
+
+    var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if (((email!==null) && (email.trim().length>0)) && (!regex.test(email))) {
+      alert("Invalid email");
+      return false;
+    }
+
+    if (message==null||message.trim().length === 0)
+      response = response + "Message field is empty";
+
+    if (response.length>=1) {
+      alert(response);
+      return false;
+    }
+
+    return true;
+  }
+
+
+  entryForm.submit(function(event) {
+    // if validation fails, stop submission
+    if (!inputValidation()) {
+      alert("input validation false");
+      return false;
+    }
+
+    console.log($(this).serialize());
+    // add timestamp
+    var currTimestamp = moment(new Date()).format('YYYYMMDDhhmmss.SSSS');
+    data = $(this).serialize() + "&sender_time=" + currTimestamp;
+
+    console.log(data);
+    return false;
+
     $.ajax({
       type: "POST",
       dataType: "json",
@@ -13,25 +69,23 @@ $("document").ready(function() {
       data: data
     })
     .done(function(data, textStatus, jqXHR) {
-      console.log(data);
       $(".body").html(
         data
       );
     })
     .fail(function(jqXHR, textStatus, errorThrown) {
-      console.log("fail");
-      console.log(textStatus);
       $(".body").html(
         "Unable to save contact form"
       );
     });
     return false;
   });
+
 });
 
 </script>
 </head>
-<body>
+<body class="flexcontainer">
 <div class="body">
   <form class="entryForm" id="contactForm" method="post" accept-charset="utf-8">
     Name<input type="text" name="sender_name" value="" placeholder="Enter Your Name" /><br/>
